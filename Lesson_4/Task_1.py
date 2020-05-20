@@ -10,20 +10,23 @@ SOLAR SYSTEM
 
 import graphics as gr
 
-SIZE_X = 400
-SIZE_Y = 400
+SIZE_X = 800
+SIZE_Y = 800
 BALL_RADIUS = 10
+G = 2000
 
 window = gr.GraphWin("SOLAR SYSTEM", SIZE_X, SIZE_Y)
 
 # Initial position of ball
-coords = gr.Point(SIZE_X / 2, SIZE_Y / 2)
+coords = gr.Point(400, 700)
+
+old_coords = gr.Point(400, 700)
 
 # Velocity
-velocity = gr.Point(2, 2)
+velocity = gr.Point(2, 0)
 
 # Acceleration
-acceleration = gr.Point(0, 1)
+acceleration = gr.Point(0, 0)
 
 def add(point_1, point_2):
     """
@@ -46,7 +49,28 @@ def add(point_1, point_2):
                       point_1.y + point_2.y)
     return new_point
 
-def draw_circle(coords):
+def sub(point_1, point_2):
+    """
+    Calculation of new coordinate before point
+
+    Parameters
+    ----------
+    point_1 : Tuple of Int
+        Coordinates of old point.
+    point_2 : Tuple of int
+        Coordinates of velocities.
+
+    Returns
+    -------
+    None.
+
+    """
+    new_point = gr.Point(point_1.x - point_2.x,
+                         point_1.y - point_2.y)
+    
+    return new_point 
+
+def draw_ball(coords):
     """
     Draws a Ball
 
@@ -65,6 +89,7 @@ def draw_circle(coords):
     
     circle.draw(window)
     
+    
 def clear_window():
     """
     Clears window
@@ -78,6 +103,7 @@ def clear_window():
                              gr.Point(SIZE_X, SIZE_Y))
     rectangle.setFill('gray')
     rectangle.draw(window)
+    
     
 def check_coords(coords, velocity):
     """
@@ -95,10 +121,10 @@ def check_coords(coords, velocity):
     None.
 
     """
-    if 0 > coords.y - BALL_RADIUS  or coords.y + BALL_RADIUS > SIZE_Y:
+    if 0 >= coords.y - BALL_RADIUS  or coords.y + BALL_RADIUS >= SIZE_Y:
         velocity.y = -velocity.y
         
-    if 0 > coords.x - BALL_RADIUS or coords.x + BALL_RADIUS > SIZE_X:
+    if 0 >= coords.x - BALL_RADIUS or coords.x + BALL_RADIUS >= SIZE_X:
         velocity.x = -velocity.x
     
 def update_velocity(velocity, acceleration):
@@ -118,16 +144,40 @@ def update_velocity(velocity, acceleration):
 
     """    
     return add(velocity, acceleration)
+
+def update_coordinates(coords, velocity):
+    return add(coords, velocity)
+
+def update_acceleration(ball_coords, center_coords):
+    diff = sub(ball_coords, center_coords)
+    distance_2 = (diff.x ** 2 + diff.y ** 2) ** (3 / 2)
+    return gr.Point(-diff.x * G / distance_2, -diff.y * G / distance_2) 
+
+circle = gr.Circle(coords, BALL_RADIUS)
+circle.setFill('red')
+circle.draw(window)
+
+sun = gr.Circle(gr.Point(400, 400), 50)
+sun.setFill('yellow')
+sun.draw(window)
+
 while True:
-    clear_window()
     
-    draw_circle(coords)
-    coords = add(coords, velocity)
+    
+    
+    #clear_window()
+    
+    acceleration = update_acceleration(coords, gr.Point(400, 400))
+    
+    coords = update_coordinates(coords, velocity)
+    
     velocity = update_velocity(velocity, acceleration)
+    
     check_coords(coords, velocity)
     
+    deltas = sub(coords, old_coords)
+    circle.move(deltas.x, deltas.y)
+    
+    old_coords = gr.Point(coords.x, coords.y)
+    
     gr.time.sleep(0.02)
-
-window.getMouse()
-
-window.close()
