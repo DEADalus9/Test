@@ -7,42 +7,17 @@ Created on Sun May 17 15:48:02 2020
 """
 
 
-import graphics as gr
+from graph import *
 
-window = gr.GraphWin("Jenkslex and Ganzz project", 400, 400)
+penColor(255,0,255)
+penSize(5)
+brushColor("blue")
+rectangle(100, 100, 300, 200)
+brushColor("yellow")
+polygon([(100,100), (200,50),
+         (300,100), (100,100)])
+penColor("white")
+brushColor("green")
+circle(200, 150, 50)
 
-face = gr.Circle(gr.Point(200, 200), 100)
-face.setFill('yellow')
-
-eye1 = gr.Circle(gr.Point(150, 180), 20)
-eye2 = gr.Circle(gr.Point(250, 180), 15)
-eye1_center = gr.Circle(gr.Point(150, 180), 8)
-eye2_center = gr.Circle(gr.Point(250, 180), 7)
-eye1.setFill('red')
-eye2.setFill('red')
-eye1_center.setFill('black')
-eye2_center.setFill('black')
-
-eyebrow1 = gr.Line(gr.Point(100, 120), gr.Point(180, 170))
-eyebrow2 = gr.Line(gr.Point(220, 170), gr.Point(300, 140))
-eyebrow1.setWidth(10)
-eyebrow2.setWidth(10)
-eyebrow1.setOutline('black')
-eyebrow2.setOutline('black')
-
-mouth = gr.Line(gr.Point(150, 260), gr.Point(250, 260))
-mouth.setWidth(20)
-mouth.setOutline('black')
-
-face.draw(window)
-eye1.draw(window)
-eye2.draw(window)
-eye1_center.draw(window)
-eye2_center.draw(window)
-eyebrow1.draw(window)
-eyebrow2.draw(window)
-mouth.draw(window)
-
-window.getMouse()
-
-window.close()
+run()
