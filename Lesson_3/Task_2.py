@@ -4,6 +4,8 @@
 Created on Wed May 20 14:39:31 2020
 
 @author: vladislav
+
+HOUSE WITHOUT STRUCTURE
 """
 
 import graphics as gr
