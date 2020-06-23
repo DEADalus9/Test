@@ -8,7 +8,22 @@ BINARY SEARCH
 """
 
 def binary_search(value, array):
-   
+    """
+    BINARY SEARCH ALGORITHM
+
+    Parameters
+    ----------
+    value : 
+        Value to search.
+    array : 
+        List where to search.
+
+    Returns
+    -------
+    middle : 
+        Position of value in array or None if not found.
+
+    """
     low = 0
     high = len(array) - 1
     
